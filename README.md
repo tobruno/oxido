@@ -5,4 +5,4 @@ Napisana aplikacja to prosty program spełniający wszystkie założenia dla zad
  - zapis pobranej treści do pliku HTML.
 Pozostałe kroki zawierają się w funkcji main().
 
-Instrukcja uruchomienia: Uruchomienie skryptu oxido.py
+Instrukcja uruchomienia: 1) Wprowadź w pliku openai_key.txt nr klucza (jeśli nieaktywny) 2) Uruchom skrypt oxido.py
