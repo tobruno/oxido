@@ -2,17 +2,23 @@ from openai import OpenAI
 import os
 import requests
 
-client = OpenAI(
-    api_key='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'
-)
+file_path = 'openai_key.txt'
 
+def read_api_key(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            api_key = file.read().strip()
+            return api_key
+    except FileNotFoundError:
+        print(f"Plik {file_path} nie został znaleziony")
+        return None
 
 def read_article(url):
     response = requests.get(url)
     response.raise_for_status()
     return response.text
 
-def generate_content(article_text):
+def generate_content(article_text, client):
     prompt = f"""
     Zamień format przedstawionego niżej Artykułu na typ HTML. Wytwarzając polecony tekst, zastosuj się do poniższych poleceń:
      1) Użyj odpowiednich tagów HTML do strukturyzacji treści. 
@@ -48,9 +54,16 @@ def save_html(html_content, output_file):
 def main():
     url = f'https://cdn.oxido.pl/hr/Zadanie%20dla%20JJunior%20AI%20Developera%20-%20tresc%20artykulu.txt'
     output_file = 'artykul.html'
+    
+    key = read_api_key(file_path)
+    if key:
+        print("Klucz API został odczytany")
+    else:
+        print("Nie udało się odczytać klucza API")
+    client = OpenAI(api_key = key)
 
     article_text = read_article(url)
-    html_content = generate_content(article_text)
+    html_content = generate_content(article_text, client)
 
     save_html(html_content, output_file)
     print("Program wykonał się prawidłowo - plik artykul.html został zapisany")
